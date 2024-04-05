@@ -1,0 +1,19 @@
+services:
+- type: pserv
+  name: prometheus-cluster
+  env: docker
+  plan: standard
+  disk:
+    name: prometheusdata
+    mountPath: /etc/prometheus/data
+    sizeGB: 1
+  autoDeploy: false # so Render does not restart on a push to this repository.
+  scaling:
+    minInstances: 2         # Required
+    maxInstances: 3         # Required
+    targetMemoryPercent: 60 # Optional if targetCPUPercent is set (valid: 1-90)
+    targetCPUPercent: 60    # Optional if targetMemory is set (valid: 1-90)
+
+  envVars:
+  - key: DATA_PATH
+    value: /etc/prometheus/data
